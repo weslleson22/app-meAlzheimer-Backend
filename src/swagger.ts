@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'MeAlzheimer Backend API',
       version: '1.0.0',
-      description: 'API para gerenciamento de pontos de coleta de itens recicláveis e conscientização sobre Alzheimer',
+      description: 'API para gerenciamento de famílias e categorias de parentesco com integração de conscientização sobre Alzheimer',
       contact: {
         name: 'Seu Nome',
         email: 'seu.email@example.com',
@@ -29,23 +29,23 @@ const options = {
           properties: {
             id: {
               type: 'integer',
-              description: 'ID único do item',
+              description: 'ID único da categoria de família',
               example: 1,
             },
             title: {
               type: 'string',
-              description: 'Nome/título do item',
-              example: 'Plástico',
+              description: 'Nome da categoria de parentesco',
+              example: 'Mãe',
             },
             image: {
               type: 'string',
-              description: 'Nome do arquivo de imagem',
-              example: 'plastico.png',
+              description: 'Nome do arquivo de imagem da categoria',
+              example: 'mae.png',
             },
             image_url: {
               type: 'string',
-              description: 'URL completa da imagem do item',
-              example: 'http://192.168.0.6:3333/uploads/plastico.png',
+              description: 'URL completa da imagem da categoria',
+              example: 'http://192.168.0.6:3333/uploads/mae.png',
             },
             created_at: {
               type: 'string',
@@ -60,35 +60,35 @@ const options = {
           properties: {
             id: {
               type: 'integer',
-              description: 'ID único do ponto de coleta',
+              description: 'ID único da localização da família',
               example: 1,
             },
             name: {
               type: 'string',
-              description: 'Nome do ponto de coleta',
-              example: 'Ponto Ecológico Centro',
+              description: 'Nome da família',
+              example: 'Família Silva',
             },
             email: {
               type: 'string',
               format: 'email',
-              description: 'Email de contato',
-              example: 'contato@ponto.com',
+              description: 'Email de contato da família',
+              example: 'contato@familia.com',
             },
             whatsapp: {
               type: 'string',
-              description: 'Número de WhatsApp',
+              description: 'Número de WhatsApp da família',
               example: '85988776655',
             },
             latitude: {
               type: 'number',
               format: 'double',
-              description: 'Latitude da localização',
+              description: 'Latitude da localização da família',
               example: -3.7319,
             },
             longitude: {
               type: 'number',
               format: 'double',
-              description: 'Longitude da localização',
+              description: 'Longitude da localização da família',
               example: -38.5267,
             },
             city: {
@@ -105,13 +105,13 @@ const options = {
             },
             image: {
               type: 'string',
-              description: 'Nome do arquivo de imagem',
-              example: 'ponto1.png',
+              description: 'Nome do arquivo de imagem da família',
+              example: 'familia1.png',
             },
             image_url: {
               type: 'string',
-              description: 'URL completa da imagem do ponto',
-              example: 'http://192.168.0.6:3333/uploads/ponto1.png',
+              description: 'URL completa da imagem da família',
+              example: 'http://192.168.0.6:3333/uploads/familia1.png',
             },
             created_at: {
               type: 'string',
@@ -134,11 +134,11 @@ const options = {
                 properties: {
                   title: {
                     type: 'string',
-                    example: 'Plástico',
+                    example: 'Mãe',
                   },
                 },
               },
-              description: 'Lista de itens aceitos no ponto',
+              description: 'Lista de categorias de parentesco relacionadas à família',
             },
           },
         },

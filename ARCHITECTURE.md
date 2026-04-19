@@ -71,13 +71,13 @@ app-meAlzheimer-Backend/
 │   │                                 # - Nomeação: timestamp-originalname
 │   │
 │   ├── controllers/                 # Lógica de negócios
-│   │   ├── ItemsController.ts       # Gerenciamento de itens
-│   │   │   └── index()              # Lista todos os itens
+│   │   ├── ItemsController.ts       # Gerenciamento de categorias de parentesco
+│   │   │   └── index()              # Lista todas as categorias
 │   │   │
-│   │   └── PointsController.ts      # Gerenciamento de pontos de coleta
+│   │   └── PointsController.ts      # Gerenciamento de famílias e localizações
 │   │       ├── index()              # Lista com filtros
 │   │       ├── show()               # Detalhes específicos
-│   │       └── create()             # Criar novo ponto
+│   │       └── create()             # Criar nova família
 │   │
 │   ├── database/
 │   │   ├── connection.ts            # Conexão com SQLite

@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/license-ISC-green)
 ![Node](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
 
-Plataforma backend para gerenciamento de pontos de coleta de itens recicláveis com integração de conscientização sobre Alzheimer.
+Plataforma backend para gerenciamento de famílias de acordo com o seu parentesco, com integração de conscientização sobre Alzheimer.
 
 ## 📋 Índice
 
@@ -22,10 +22,10 @@ Plataforma backend para gerenciamento de pontos de coleta de itens recicláveis 
 
 ## ✨ Características
 
-- ✅ Listagem de itens recicláveis
-- ✅ Criação e listagem de pontos de coleta
-- ✅ Filtros por localização (cidade, estado) e tipo de item
-- ✅ Upload de imagens para pontos de coleta
+- ✅ Listagem de família
+- ✅ Criação e listagem da localização da família
+- ✅ Filtros por cidade, estado e categorias de parentesco
+- ✅ Upload de imagens para o registro da família
 - ✅ Validação de dados com Celebrate/Joi
 - ✅ Documentação automática com Swagger/OpenAPI
 - ✅ CORS habilitado para integração com frontend
@@ -162,10 +162,10 @@ npx knex migrate:rollback --knexfile knexfile.ts
 
 ## 🔌 API Endpoints
 
-### Items
+### Categories (Categorias de Família)
 
 #### GET `/items`
-Lista todos os itens disponíveis para coleta.
+Lista todas as categorias de parentesco usadas no sistema.
 
 **Exemplo de Requisição:**
 ```bash
@@ -177,30 +177,28 @@ curl http://localhost:3333/items
 [
   {
     "id": 1,
-    "title": "Plástico",
-    "image_url": "http://192.168.0.6:3333/uploads/plastico.png"
+    "title": "Mãe",
+    "image_url": "http://192.168.0.6:3333/uploads/mae.png"
   },
   {
     "id": 2,
-    "title": "Papel",
-    "image_url": "http://192.168.0.6:3333/uploads/papel.png"
+    "title": "Pai",
+    "image_url": "http://192.168.0.6:3333/uploads/pai.png"
   }
 ]
 ```
 
 ---
 
-### Points (Pontos de Coleta)
-
 #### GET `/points`
-Lista pontos de coleta com filtros.
+Lista localizações de família com filtros.
 
 **Parâmetros Query (obrigatórios):**
 | Parâmetro | Tipo | Descrição | Exemplo |
 |-----------|------|-----------|---------|
 | `city` | string | Nome da cidade | `Fortaleza` |
 | `uf` | string | Estado (2 caracteres) | `CE` |
-| `items` | string | IDs dos itens (separados por vírgula) | `1,2,3` |
+| `items` | string | IDs das categorias de parentesco (separados por vírgula) | `1,2,3` |
 
 **Exemplo de Requisição:**
 ```bash
@@ -212,15 +210,15 @@ curl "http://localhost:3333/points?city=Fortaleza&uf=CE&items=1,2,3"
 [
   {
     "id": 1,
-    "name": "Ponto Ecológico Centro",
-    "email": "contato@ponto.com",
+    "name": "Família Silva",
+    "email": "contato@familia.com",
     "whatsapp": "85988776655",
     "latitude": -3.7319,
     "longitude": -38.5267,
     "city": "Fortaleza",
     "uf": "CE",
-    "image": "ponto1.png",
-    "image_url": "http://192.168.0.6:3333/uploads/ponto1.png"
+    "image": "familia1.png",
+    "image_url": "http://192.168.0.6:3333/uploads/familia1.png"
   }
 ]
 ```
@@ -228,12 +226,12 @@ curl "http://localhost:3333/points?city=Fortaleza&uf=CE&items=1,2,3"
 ---
 
 #### GET `/points/:id`
-Obtém detalhes específicos de um ponto de coleta.
+Obtém detalhes específicos de uma família.
 
 **Parâmetros Path:**
 | Parâmetro | Tipo | Descrição |
 |-----------|------|-----------|
-| `id` | integer | ID do ponto de coleta |
+| `id` | integer | ID da família |
 
 **Exemplo de Requisição:**
 ```bash
@@ -245,20 +243,20 @@ curl http://localhost:3333/points/1
 {
   "point": {
     "id": 1,
-    "name": "Ponto Ecológico Centro",
-    "email": "contato@ponto.com",
+    "name": "Família Silva",
+    "email": "contato@familia.com",
     "whatsapp": "85988776655",
     "latitude": -3.7319,
     "longitude": -38.5267,
     "city": "Fortaleza",
     "uf": "CE",
-    "image": "ponto1.png",
-    "image_url": "http://192.168.0.6:3333/uploads/ponto1.png"
+    "image": "familia1.png",
+    "image_url": "http://192.168.0.6:3333/uploads/familia1.png"
   },
   "items": [
-    { "title": "Plástico" },
-    { "title": "Papel" },
-    { "title": "Vidro" }
+    { "title": "Mãe" },
+    { "title": "Pai" },
+    { "title": "Primo" }
   ]
 }
 ```
@@ -266,26 +264,26 @@ curl http://localhost:3333/points/1
 ---
 
 #### POST `/points`
-Cria um novo ponto de coleta.
+Cria uma nova localização de família.
 
 **Parâmetros Body (multipart/form-data):**
 | Campo | Tipo | Obrigatório | Descrição | Exemplo |
 |-------|------|-------------|-----------|---------|
-| `name` | string | ✅ | Nome do ponto | `Ponto Ecológico Centro` |
-| `email` | string | ✅ | Email de contato | `contato@ponto.com` |
+| `name` | string | ✅ | Nome da família | `Família Silva` |
+| `email` | string | ✅ | Email de contato | `contato@familia.com` |
 | `whatsapp` | string | ✅ | Número WhatsApp | `85988776655` |
 | `latitude` | number | ✅ | Coordenada latitude | `-3.7319` |
 | `longitude` | number | ✅ | Coordenada longitude | `-38.5267` |
 | `city` | string | ✅ | Cidade | `Fortaleza` |
 | `uf` | string (max 2) | ✅ | Estado | `CE` |
-| `items` | string | ✅ | IDs dos itens (separados por vírgula) | `1,2,3` |
-| `image` | file | ❌ | Imagem do ponto | arquivo.png |
+| `items` | string | ✅ | IDs das categorias de parentesco (separados por vírgula) | `1,2,3` |
+| `image` | file | ❌ | Imagem do registro da família | arquivo.png |
 
 **Exemplo de Requisição (cURL):**
 ```bash
 curl -X POST http://localhost:3333/points \
-  -F "name=Ponto Ecológico Centro" \
-  -F "email=contato@ponto.com" \
+  -F "name=Família Silva" \
+  -F "email=contato@familia.com" \
   -F "whatsapp=85988776655" \
   -F "latitude=-3.7319" \
   -F "longitude=-38.5267" \
@@ -301,8 +299,8 @@ const FormData = require('form-data');
 const fs = require('fs');
 
 const form = new FormData();
-form.append('name', 'Ponto Ecológico Centro');
-form.append('email', 'contato@ponto.com');
+form.append('name', 'Família Silva');
+form.append('email', 'contato@familia.com');
 form.append('whatsapp', '85988776655');
 form.append('latitude', -3.7319);
 form.append('longitude', -38.5267);
@@ -320,9 +318,7 @@ axios.post('http://localhost:3333/points', form, {
 ```json
 {
   "id": 5,
-  "message": "Ponto de coleta criado com sucesso"
-}
-```
+  "message": "Localização da família criada
 
 **Códigos de Erro:**
 - `400` - Dados inválidos ou campos obrigatórios faltando

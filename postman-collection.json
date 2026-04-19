@@ -6,12 +6,12 @@
   "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
   "item": [
     {
-      "name": "📦 Items",
-      "description": "Endpoints para gerenciar itens de coleta",
+      "name": "📦 Categories",
+      "description": "Endpoints para gerenciar categorias de parentesco",
       "item": [
         {
-          "name": "List All Items",
-          "description": "Retorna lista de todos os itens disponíveis",
+          "name": "List All Categories",
+          "description": "Retorna lista de todas as categorias de parentesco",
           "event": [
             {
               "listen": "test",
@@ -55,12 +55,12 @@
       ]
     },
     {
-      "name": "🗺️ Points",
-      "description": "Endpoints para gerenciar pontos de coleta",
+      "name": "🗺️ Families",
+      "description": "Endpoints para gerenciar localizações de famílias",
       "item": [
         {
-          "name": "List Points by Filters",
-          "description": "Lista pontos de coleta filtrados por cidade, estado e itens",
+          "name": "List Families by Filters",
+          "description": "Lista famílias filtradas por cidade, estado e categorias de parentesco",
           "event": [
             {
               "listen": "test",
@@ -118,8 +118,8 @@
           "response": []
         },
         {
-          "name": "Get Point Details",
-          "description": "Obtém informações detalhadas de um ponto específico",
+          "name": "Get Family Details",
+          "description": "Obtém informações detalhadas de uma família específica",
           "event": [
             {
               "listen": "test",
@@ -157,8 +157,8 @@
           "response": []
         },
         {
-          "name": "Create New Point",
-          "description": "Cria um novo ponto de coleta com imagem",
+          "name": "Create New Family",
+          "description": "Cria uma nova localização de família com imagem",
           "event": [
             {
               "listen": "test",
@@ -185,12 +185,12 @@
               "formdata": [
                 {
                   "key": "name",
-                  "value": "Ponto Ecológico Centro",
+                  "value": "Família Silva",
                   "type": "text"
                 },
                 {
                   "key": "email",
-                  "value": "contato@ponto.com",
+                  "value": "contato@familia.com",
                   "type": "text"
                 },
                 {

@@ -2,13 +2,13 @@
  * @swagger
  * /items:
  *   get:
- *     summary: Lista todos os itens disponíveis
- *     description: Retorna uma lista de todos os itens que podem ser coletados
+ *     summary: Lista todas as categorias de parentesco disponíveis
+ *     description: Retorna uma lista de todas as categorias de parentesco usadas para identificar membros de famílias
  *     tags:
  *       - Items
  *     responses:
  *       200:
- *         description: Lista de itens obtida com sucesso
+ *         description: Lista de categorias obtida com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -17,14 +17,14 @@
  *                 $ref: '#/components/schemas/Item'
  *             example:
  *               - id: 1
- *                 title: "Plástico"
- *                 image_url: "http://192.168.0.6:3333/uploads/plastico.png"
+ *                 title: "Mãe"
+ *                 image_url: "http://192.168.0.6:3333/uploads/mae.png"
  *               - id: 2
- *                 title: "Papel"
- *                 image_url: "http://192.168.0.6:3333/uploads/papel.png"
+ *                 title: "Pai"
+ *                 image_url: "http://192.168.0.6:3333/uploads/pai.png"
  *               - id: 3
- *                 title: "Vidro"
- *                 image_url: "http://192.168.0.6:3333/uploads/vidro.png"
+ *                 title: "Primo"
+ *                 image_url: "http://192.168.0.6:3333/uploads/primo.png"
  *       500:
  *         description: Erro interno do servidor
  *         content:
@@ -37,8 +37,8 @@
  * @swagger
  * /points:
  *   get:
- *     summary: Lista pontos de coleta com filtros
- *     description: Retorna pontos de coleta filtrados por cidade, estado e itens aceitos
+ *     summary: Lista localizações de família com filtros
+ *     description: Retorna localizações de família filtradas por cidade, estado e categorias de parentesco
  *     tags:
  *       - Points
  *     parameters:
@@ -60,14 +60,14 @@
  *         example: "CE"
  *       - name: items
  *         in: query
- *         description: IDs dos itens separados por vírgula
+ *         description: IDs das categorias de parentesco separados por vírgula
  *         required: true
  *         schema:
  *           type: string
  *         example: "1,2,3"
  *     responses:
  *       200:
- *         description: Pontos de coleta encontrados com sucesso
+ *         description: Localizações de família encontradas com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -76,14 +76,14 @@
  *                 $ref: '#/components/schemas/Point'
  *             example:
  *               - id: 1
- *                 name: "Ponto Ecológico Centro"
- *                 email: "contato@ponto.com"
+ *                 name: "Família Silva"
+ *                 email: "contato@familia.com"
  *                 whatsapp: "85988776655"
  *                 latitude: -3.7319
  *                 longitude: -38.5267
  *                 city: "Fortaleza"
  *                 uf: "CE"
- *                 image_url: "http://192.168.0.6:3333/uploads/ponto1.png"
+ *                 image_url: "http://192.168.0.6:3333/uploads/familia1.png"
  *       400:
  *         description: Parâmetros de filtro inválidos
  *         content:
@@ -98,8 +98,8 @@
  *               $ref: '#/components/schemas/Error'
  *
  *   post:
- *     summary: Cria um novo ponto de coleta
- *     description: Cria um novo ponto de coleta com informações de localização e contato. Aceita upload de imagem.
+ *     summary: Cria uma nova localização de família
+ *     description: Cria uma localização de família com informações de contato e localização. Aceita upload de imagem.
  *     tags:
  *       - Points
  *     requestBody:
@@ -120,13 +120,13 @@
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nome do ponto de coleta
- *                 example: "Ponto Ecológico Centro"
+ *                 description: Nome da família
+ *                 example: "Família Silva"
  *               email:
  *                 type: string
  *                 format: email
- *                 description: Email de contato
- *                 example: "contato@ponto.com"
+ *                 description: Email de contato da família
+ *                 example: "contato@familia.com"
  *               whatsapp:
  *                 type: string
  *                 description: Número de WhatsApp para contato
@@ -134,16 +134,16 @@
  *               latitude:
  *                 type: number
  *                 format: double
- *                 description: Latitude da localização do ponto
+ *                 description: Latitude da localização da família
  *                 example: -3.7319
  *               longitude:
  *                 type: number
  *                 format: double
- *                 description: Longitude da localização do ponto
+ *                 description: Longitude da localização da família
  *                 example: -38.5267
  *               city:
  *                 type: string
- *                 description: Cidade onde o ponto está localizado
+ *                 description: Cidade onde a família está localizada
  *                 example: "Fortaleza"
  *               uf:
  *                 type: string
@@ -153,15 +153,15 @@
  *                 example: "CE"
  *               items:
  *                 type: string
- *                 description: IDs dos itens que são coletados, separados por vírgula
+ *                 description: IDs das categorias de parentesco associadas, separados por vírgula
  *                 example: "1,2,3"
  *               image:
  *                 type: string
  *                 format: binary
- *                 description: Imagem de identificação do ponto de coleta
+ *                 description: Imagem de identificação da família
  *     responses:
  *       201:
- *         description: Ponto de coleta criado com sucesso
+ *         description: Localização da família criada com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -172,7 +172,7 @@
  *                   example: 5
  *                 message:
  *                   type: string
- *                   example: "Ponto de coleta criado com sucesso"
+ *                   example: "Localização da família criada com sucesso"
  *       400:
  *         description: Dados inválidos ou faltando campos obrigatórios
  *         content:
@@ -191,21 +191,21 @@
  * @swagger
  * /points/{id}:
  *   get:
- *     summary: Obtém detalhes de um ponto de coleta específico
- *     description: Retorna informações detalhadas de um ponto de coleta, incluindo os itens que aceita
+ *     summary: Obtém detalhes de uma família específica
+ *     description: Retorna informações detalhadas de uma localização de família, incluindo categorias de parentesco associadas
  *     tags:
  *       - Points
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do ponto de coleta
+ *         description: ID da família
  *         required: true
  *         schema:
  *           type: integer
  *         example: 1
  *     responses:
  *       200:
- *         description: Detalhes do ponto obtidos com sucesso
+ *         description: Detalhes da família obtidos com sucesso
  *         content:
  *           application/json:
  *             schema:
@@ -213,26 +213,26 @@
  *             example:
  *               point:
  *                 id: 1
- *                 name: "Ponto Ecológico Centro"
- *                 email: "contato@ponto.com"
+ *                 name: "Família Silva"
+ *                 email: "contato@familia.com"
  *                 whatsapp: "85988776655"
  *                 latitude: -3.7319
  *                 longitude: -38.5267
  *                 city: "Fortaleza"
  *                 uf: "CE"
- *                 image_url: "http://192.168.0.6:3333/uploads/ponto1.png"
+ *                 image_url: "http://192.168.0.6:3333/uploads/familia1.png"
  *               items:
- *                 - title: "Plástico"
- *                 - title: "Papel"
- *                 - title: "Vidro"
+ *                 - title: "Mãe"
+ *                 - title: "Pai"
+ *                 - title: "Primo"
  *       400:
- *         description: Ponto de coleta não encontrado
+ *         description: Família não encontrada
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *             example:
- *               message: "Point not found"
+ *               message: "Family not found"
  *       500:
  *         description: Erro interno do servidor
  *         content:

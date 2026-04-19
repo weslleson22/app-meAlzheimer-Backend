@@ -3,8 +3,8 @@
 ## 📋 Índice
 
 - [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Items Endpoints](#items-endpoints)
-- [Points Endpoints](#points-endpoints)
+- [Categories Endpoints](#categories-endpoints)
+- [Families Endpoints](#families-endpoints)
 
 ---
 
@@ -28,9 +28,9 @@ Ou configure em seu cliente (Postman, Insomnia, etc):
 
 ---
 
-## 📦 Items Endpoints
+## 📦 Categories Endpoints
 
-### 1. Listar Todos os Items
+### 1. Listar Todas as Categorias de Parentesco
 
 ```http
 GET {{base_url}}/items HTTP/1.1
@@ -89,11 +89,11 @@ fetch('http://localhost:3333/items')
 
 ---
 
-## 🗺️ Points Endpoints
+## 🗺️ Families Endpoints
 
-### 1. Listar Pontos com Filtros
+### 1. Listar Famílias com Filtros
 
-**Descrição:** Lista pontos de coleta filtrados por cidade, estado e tipos de itens.
+**Descrição:** Lista localizações de família filtradas por cidade, estado e categorias de parentesco.
 
 ```http
 GET {{base_url}}/points?city=Fortaleza&uf=CE&items=1,2,3 HTTP/1.1
@@ -104,7 +104,7 @@ Accept: application/json
 **Parâmetros Query:**
 - `city` (obrigatório): Nome da cidade
 - `uf` (obrigatório): Sigla do estado (2 caracteres)
-- `items` (obrigatório): IDs dos itens separados por vírgula
+- `items` (obrigatório): IDs das categorias de parentesco separados por vírgula
 
 **cURL:**
 ```bash
@@ -142,28 +142,28 @@ axios.get('http://localhost:3333/points', {
 [
   {
     "id": 1,
-    "name": "Ponto Ecológico Centro",
-    "email": "contato@ponto.com",
+    "name": "Família Silva",
+    "email": "contato@familia.com",
     "whatsapp": "85988776655",
     "latitude": -3.7319,
     "longitude": -38.5267,
     "city": "Fortaleza",
     "uf": "CE",
-    "image": "ponto1.png",
-    "image_url": "http://192.168.0.6:3333/uploads/ponto1.png",
+    "image": "familia1.png",
+    "image_url": "http://192.168.0.6:3333/uploads/familia1.png",
     "created_at": "2024-01-15T10:30:00.000Z"
   },
   {
     "id": 2,
-    "name": "Cooperativa Sustentável",
-    "email": "contato@sustentavel.com",
+    "name": "Família Oliveira",
+    "email": "contato@familiaoliveria.com",
     "whatsapp": "85987654321",
     "latitude": -3.7384,
     "longitude": -38.5432,
     "city": "Fortaleza",
     "uf": "CE",
-    "image": "ponto2.png",
-    "image_url": "http://192.168.0.6:3333/uploads/ponto2.png",
+    "image": "familia2.png",
+    "image_url": "http://192.168.0.6:3333/uploads/familia2.png",
     "created_at": "2024-01-20T14:22:00.000Z"
   }
 ]
@@ -184,9 +184,9 @@ axios.get('http://localhost:3333/points', {
 
 ---
 
-### 2. Obter Detalhes de um Ponto
+### 2. Obter Detalhes de uma Família
 
-**Descrição:** Obtém informações completas de um ponto específico, incluindo os itens que aceita.
+**Descrição:** Obtém informações completas de uma família específica, incluindo as categorias de parentesco associadas.
 
 ```http
 GET {{base_url}}/points/1 HTTP/1.1
@@ -195,7 +195,7 @@ Accept: application/json
 ```
 
 **Parâmetros Path:**
-- `id` (obrigatório): ID do ponto de coleta
+- `id` (obrigatório): ID da família
 
 **cURL:**
 ```bash
@@ -215,26 +215,26 @@ fetch('http://localhost:3333/points/1')
 {
   "point": {
     "id": 1,
-    "name": "Ponto Ecológico Centro",
-    "email": "contato@ponto.com",
+    "name": "Família Silva",
+    "email": "contato@familia.com",
     "whatsapp": "85988776655",
     "latitude": -3.7319,
     "longitude": -38.5267,
     "city": "Fortaleza",
     "uf": "CE",
-    "image": "ponto1.png",
-    "image_url": "http://192.168.0.6:3333/uploads/ponto1.png",
+    "image": "familia1.png",
+    "image_url": "http://192.168.0.6:3333/uploads/familia1.png",
     "created_at": "2024-01-15T10:30:00.000Z"
   },
   "items": [
     {
-      "title": "Plástico"
+      "title": "Mãe"
     },
     {
-      "title": "Papel"
+      "title": "Pai"
     },
     {
-      "title": "Vidro"
+      "title": "Primo"
     }
   ]
 }
@@ -250,9 +250,9 @@ fetch('http://localhost:3333/points/1')
 
 ---
 
-### 3. Criar Novo Ponto de Coleta
+### 3. Criar Nova Localização de Família
 
-**Descrição:** Cria um novo ponto de coleta com imagem, localização e itens aceitos.
+**Descrição:** Cria uma nova localização de família com imagem, localização e categorias de parentesco.
 
 ```http
 POST {{base_url}}/points HTTP/1.1
@@ -302,35 +302,35 @@ Content-Type: image/png
 **Campos Obrigatórios:**
 | Campo | Tipo | Descrição | Exemplo |
 |-------|------|-----------|---------|
-| name | string | Nome do ponto | `Ponto Ecológico Centro` |
-| email | string (email) | Email de contato | `contato@ponto.com` |
+| name | string | Nome da família | `Família Silva` |
+| email | string (email) | Email de contato da família | `contato@familia.com` |
 | whatsapp | string | Número WhatsApp | `85988776655` |
 | latitude | number | Coordenada latitude | `-3.7319` |
 | longitude | number | Coordenada longitude | `-38.5267` |
 | city | string | Cidade | `Fortaleza` |
 | uf | string (max 2) | Estado | `CE` |
-| items | string | IDs dos itens (separados por vírgula) | `1,2,3` |
-| image | file (opcional) | Imagem do ponto | arquivo.png |
+| items | string | IDs das categorias de parentesco (separados por vírgula) | `1,2,3` |
+| image | file (opcional) | Imagem da localização da família | arquivo.png |
 
 **cURL:**
 ```bash
 curl -X POST http://localhost:3333/points \
-  -F "name=Ponto Ecológico Centro" \
-  -F "email=contato@ponto.com" \
+  -F "name=Família Silva" \
+  -F "email=contato@familia.com" \
   -F "whatsapp=85988776655" \
   -F "latitude=-3.7319" \
   -F "longitude=-38.5267" \
   -F "city=Fortaleza" \
   -F "uf=CE" \
   -F "items=1,2,3" \
-  -F "image=@/caminho/para/ponto.png"
+  -F "image=@/caminho/para/familia.png"
 ```
 
 **JavaScript (Fetch):**
 ```javascript
 const formData = new FormData();
-formData.append('name', 'Ponto Ecológico Centro');
-formData.append('email', 'contato@ponto.com');
+formData.append('name', 'Família Silva');
+formData.append('email', 'contato@familia.com');
 formData.append('whatsapp', '85988776655');
 formData.append('latitude', -3.7319);
 formData.append('longitude', -38.5267);
@@ -350,8 +350,8 @@ fetch('http://localhost:3333/points', {
 **JavaScript (Axios):**
 ```javascript
 const formData = new FormData();
-formData.append('name', 'Ponto Ecológico Centro');
-formData.append('email', 'contato@ponto.com');
+formData.append('name', 'Família Silva');
+formData.append('email', 'contato@familia.com');
 formData.append('whatsapp', '85988776655');
 formData.append('latitude', -3.7319);
 formData.append('longitude', -38.5267);
@@ -372,10 +372,10 @@ axios.post('http://localhost:3333/points', formData, {
 ```python
 import requests
 
-files = {'image': open('ponto.png', 'rb')}
+files = {'image': open('familia.png', 'rb')}
 data = {
-    'name': 'Ponto Ecológico Centro',
-    'email': 'contato@ponto.com',
+    'name': 'Família Silva',
+    'email': 'contato@familia.com',
     'whatsapp': '85988776655',
     'latitude': -3.7319,
     'longitude': -38.5267,
@@ -392,7 +392,7 @@ print(response.json())
 ```json
 {
   "id": 5,
-  "message": "Ponto de coleta criado com sucesso"
+  "message": "Localização da família criada com sucesso"
 }
 ```
 
@@ -528,27 +528,27 @@ No Postman:
 
 ## 📊 Fluxos de Uso Comuns
 
-### Fluxo 1: Buscar Pontos por Interesse
+### Fluxo 1: Buscar Famílias por Interesses de Parentesco
 
 ```
 1. GET /items
-   ↓ (obtém IDs dos itens interessantes)
+   ↓ (obtém IDs das categorias de parentesco)
 2. GET /points?city=Fortaleza&uf=CE&items=1,2,3
-   ↓ (obtém lista de pontos)
+   ↓ (obtém lista de famílias)
 3. GET /points/{id}
-   ↓ (obtém detalhes específicos)
+   ↓ (obtém detalhes da família)
 ```
 
-### Fluxo 2: Criar Novo Ponto
+### Fluxo 2: Criar Nova Família
 
 ```
 1. POST /points
-   ├─ Enviar dados do ponto
+   ├─ Enviar dados da família
    ├─ Enviar imagem
-   ├─ Especificar itens aceitos
-   └─ Retorna ID do novo ponto
+   ├─ Especificar categorias de parentesco associadas
+   └─ Retorna ID da nova família
 2. GET /points/{id}
-   └─ (verificar ponto criado)
+   └─ (verificar família criada)
 ```
 
 ---
