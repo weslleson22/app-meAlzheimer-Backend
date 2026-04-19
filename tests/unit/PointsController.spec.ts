@@ -190,7 +190,7 @@ describe('PointsController', () => {
       await pointsController.show(mockRequest, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(400);
-      expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Point nor found' });
+      expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Point not found' });
     });
 
     it('should add image_url to point', async () => {
