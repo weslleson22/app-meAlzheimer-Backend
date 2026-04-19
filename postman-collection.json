@@ -1,0 +1,256 @@
+{
+  "client": "Postman",
+  "version": "2.1.0",
+  "name": "MeAlzheimer Backend API",
+  "description": "Complete documentation and test suite for MeAlzheimer Backend API",
+  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+  "item": [
+    {
+      "name": "📦 Items",
+      "description": "Endpoints para gerenciar itens de coleta",
+      "item": [
+        {
+          "name": "List All Items",
+          "description": "Retorna lista de todos os itens disponíveis",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Items have required properties', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData[0]).to.have.property('id');",
+                  "    pm.expect(jsonData[0]).to.have.property('title');",
+                  "    pm.expect(jsonData[0]).to.have.property('image_url');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/items",
+              "host": ["{{base_url}}"],
+              "path": ["items"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🗺️ Points",
+      "description": "Endpoints para gerenciar pontos de coleta",
+      "item": [
+        {
+          "name": "List Points by Filters",
+          "description": "Lista pontos de coleta filtrados por cidade, estado e itens",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Points have required properties', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.expect(jsonData[0]).to.have.property('id');",
+                  "        pm.expect(jsonData[0]).to.have.property('name');",
+                  "        pm.expect(jsonData[0]).to.have.property('email');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/points?city=Fortaleza&uf=CE&items=1,2,3",
+              "host": ["{{base_url}}"],
+              "path": ["points"],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "Fortaleza"
+                },
+                {
+                  "key": "uf",
+                  "value": "CE"
+                },
+                {
+                  "key": "items",
+                  "value": "1,2,3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Point Details",
+          "description": "Obtém informações detalhadas de um ponto específico",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has point and items', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('point');",
+                  "    pm.expect(jsonData).to.have.property('items');",
+                  "    pm.expect(jsonData.items).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/points/1",
+              "host": ["{{base_url}}"],
+              "path": ["points", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Point",
+          "description": "Cria um novo ponto de coleta com imagem",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Response has id and message', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Ponto Ecológico Centro",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "contato@ponto.com",
+                  "type": "text"
+                },
+                {
+                  "key": "whatsapp",
+                  "value": "85988776655",
+                  "type": "text"
+                },
+                {
+                  "key": "latitude",
+                  "value": "-3.7319",
+                  "type": "text"
+                },
+                {
+                  "key": "longitude",
+                  "value": "-38.5267",
+                  "type": "text"
+                },
+                {
+                  "key": "city",
+                  "value": "Fortaleza",
+                  "type": "text"
+                },
+                {
+                  "key": "uf",
+                  "value": "CE",
+                  "type": "text"
+                },
+                {
+                  "key": "items",
+                  "value": "1,2,3",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/points",
+              "host": ["{{base_url}}"],
+              "path": ["points"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3333",
+      "type": "string"
+    },
+    {
+      "key": "base_url_network",
+      "value": "http://192.168.0.6:3333",
+      "type": "string"
+    }
+  ]
+}

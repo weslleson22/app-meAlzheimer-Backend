@@ -22,14 +22,33 @@ import  express  from "express";
 import routes from './routes';
 import path from 'path';
 import {celebrate, errors} from 'celebrate';
-const app = express();
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger';
 
+// Importar documentação das rotas
+import './routes-swagger';
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Configurar Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayOperationId: true,
+  },
+  customCss: '.swagger-ui .topbar { display: none }',
+}));
 
 app.use(routes);
 
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads' )));
 app.use(errors());
-app.listen(3333);
+
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
+  console.log(`\n✅ Servidor rodando na porta ${PORT}`);
+  console.log(`📚 Documentação Swagger disponível em: http://localhost:${PORT}/api-docs\n`);
+});
