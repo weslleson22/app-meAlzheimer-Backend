@@ -1,33 +1,10 @@
 import request from 'supertest';
-import express, { Express } from 'express';
+import app from '../../src/app';
 import Knex from '../../src/database/connection';
 
-// Mock do Knex
 jest.mock('../../src/database/connection');
 
 describe('Integration Tests - Items Endpoints', () => {
-  let app: Express;
-
-  beforeAll(() => {
-    app = express();
-    app.use(express.json());
-
-    // Simulando rotas
-    app.get('/items', async (req, res) => {
-      try {
-        const items = await Knex('items').select('*');
-        const serializedItems = items.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          image_url: `http://192.168.0.6:3333/uploads/${item.image}`,
-        }));
-        res.json(serializedItems);
-      } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-      }
-    });
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -43,7 +20,9 @@ describe('Integration Tests - Items Endpoints', () => {
         select: jest.fn().mockResolvedValue(mockItems),
       };
 
-      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(() => mockChain as any);
+      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(
+        () => mockChain as unknown as ReturnType<typeof Knex>
+      );
 
       const response = await request(app).get('/items');
 
@@ -59,7 +38,9 @@ describe('Integration Tests - Items Endpoints', () => {
         select: jest.fn().mockResolvedValue([]),
       };
 
-      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(() => mockChain as any);
+      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(
+        () => mockChain as unknown as ReturnType<typeof Knex>
+      );
 
       const response = await request(app).get('/items');
 
@@ -68,15 +49,15 @@ describe('Integration Tests - Items Endpoints', () => {
     });
 
     it('should have correct response format', async () => {
-      const mockItems = [
-        { id: 1, title: 'Avó', image: 'avo.png' },
-      ];
+      const mockItems = [{ id: 1, title: 'Avó', image: 'avo.png' }];
 
       const mockChain = {
         select: jest.fn().mockResolvedValue(mockItems),
       };
 
-      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(() => mockChain as any);
+      (Knex as jest.MockedFunction<typeof Knex>).mockImplementation(
+        () => mockChain as unknown as ReturnType<typeof Knex>
+      );
 
       const response = await request(app).get('/items');
 
@@ -87,3 +68,4 @@ describe('Integration Tests - Items Endpoints', () => {
     });
   });
 });
+

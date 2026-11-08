@@ -14,11 +14,15 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'json', 'html'],
   testPathIgnorePatterns: ['/node_modules/'],
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        esModuleInterop: true,
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          esModuleInterop: true,
+        },
       },
-    },
+    ],
   },
 };
+

@@ -1,3 +1,4 @@
+import path from 'path';
 import swaggerJsdoc from 'swagger-jsdoc';
 
 const options = {
@@ -6,10 +7,11 @@ const options = {
     info: {
       title: 'MeAlzheimer Backend API',
       version: '1.0.0',
-      description: 'API para gerenciamento de famílias e categorias de parentesco com integração de conscientização sobre Alzheimer',
+      description:
+        'API para gerenciamento de famílias e categorias de parentesco com integração de conscientização sobre Alzheimer',
       contact: {
-        name: 'Seu Nome',
-        email: 'seu.email@example.com',
+        name: 'MeAlzheimer Support',
+        email: 'contato@mealzheimer.com',
       },
     },
     servers: [
@@ -40,17 +42,12 @@ const options = {
             image: {
               type: 'string',
               description: 'Nome do arquivo de imagem da categoria',
-              example: 'mae.png',
+              example: 'mae.svg',
             },
             image_url: {
               type: 'string',
               description: 'URL completa da imagem da categoria',
-              example: 'http://192.168.0.6:3333/uploads/mae.png',
-            },
-            created_at: {
-              type: 'string',
-              format: 'date-time',
-              description: 'Data de criação',
+              example: 'http://192.168.0.6:3333/uploads/mae.svg',
             },
           },
           required: ['id', 'title'],
@@ -113,13 +110,17 @@ const options = {
               description: 'URL completa da imagem da família',
               example: 'http://192.168.0.6:3333/uploads/familia1.png',
             },
-            created_at: {
-              type: 'string',
-              format: 'date-time',
-              description: 'Data de criação',
-            },
           },
-          required: ['id', 'name', 'email', 'whatsapp', 'latitude', 'longitude', 'city', 'uf'],
+          required: [
+            'id',
+            'name',
+            'email',
+            'whatsapp',
+            'latitude',
+            'longitude',
+            'city',
+            'uf',
+          ],
         },
         PointDetail: {
           type: 'object',
@@ -154,9 +155,10 @@ const options = {
       },
     },
   },
-  apis: [],
+  apis: [path.join(__dirname, 'routes-swagger.*').replace(/\\/g, '/')],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
 export default swaggerSpec;
+
